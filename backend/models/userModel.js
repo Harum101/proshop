@@ -27,9 +27,9 @@ const userSchema = mongoose.Schema(
   }
 );
 
-// userSchema.methods.matchPassword = async function (enteredPassword) {
-//   return await bcrypt.compare(enteredPassword, this.password);
-// };
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 userSchema.pre("save", async function (next) {
   // Since this function will run pre save, therefore it will run automatically everytime we save User model data

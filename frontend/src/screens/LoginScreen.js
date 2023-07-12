@@ -58,7 +58,7 @@ const LoginScreen = () => {
               ></Form.Control>
             </Form.Group>
             <Button type="submit" variant="primary" className="my-3">
-              SignIn
+              Sign In
             </Button>
           </Form>
           <Row className="py-3">
