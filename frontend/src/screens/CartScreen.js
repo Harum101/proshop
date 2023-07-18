@@ -24,8 +24,6 @@ const CartScreen = () => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
-  console.log(cartItems);
-
   useEffect(() => {
     if (productId) {
       dispatch(addToCart(productId, qty));
@@ -37,7 +35,7 @@ const CartScreen = () => {
   };
 
   const checkoutHandler = () => {
-    navigate("/login?redirect=shipping"); //If user is logged in, redirect to shipping page else go to login page
+    navigate("/login?redirect=/shipping"); //If user is logged in, redirect to shipping page else go to login page
   };
 
   return (
@@ -111,7 +109,7 @@ const CartScreen = () => {
             <ListGroupItem>
               <Button
                 type="button"
-                className="btn-block"
+                className="btn-block w-100"
                 disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
               >
