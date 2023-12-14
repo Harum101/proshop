@@ -49,6 +49,16 @@ const PaymentScreen = () => {
             <Row className="py-2 ms-1">
               <Form.Check
                 type="radio"
+                label="Meta Mask Wallet"
+                id="Crypto"
+                name="paymentMethod"
+                value="Crypto"
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              ></Form.Check>
+            </Row>
+            <Row className="py-2 ms-1">
+              <Form.Check
+                type="radio"
                 label="Cash on Delivery"
                 id="cod"
                 name="paymentMethod"
