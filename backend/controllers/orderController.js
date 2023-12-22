@@ -32,6 +32,7 @@ const addOrderItems = asyncHandler(async (req, res, next) => {
   }
 });
 
+//GET A SPECIFFIC ORDER AFTER CLICKING ON PLACE ORDER BUTTON IN FRONTEND
 const getOrderById = asyncHandler(async (req, res, next) => {
   const order = await Order.findById(req.params.id).populate(
     "user",

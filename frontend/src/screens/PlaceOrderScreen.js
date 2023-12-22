@@ -7,7 +7,11 @@ import CheckoutSteps from "../components/CheckoutSteps";
 import { createOrder } from "../actions/orderActions";
 
 const PlaceOrderScreen = () => {
+  const navigate = useNavigate();
+
   const cart = useSelector((state) => state.cart);
+  const { order, success, error } = useSelector((state) => state.orderCreate);
+
   const [calculatedPrices, setCalculatedPrices] = useState({
     itemsPrice: 0,
     shippingPrice: 0,
@@ -22,10 +26,9 @@ const PlaceOrderScreen = () => {
 
   //Calculate Prices
   useEffect(() => {
-    const itemsPrice = cart.cartItems.reduce(
-      (acc, item) => acc + Number(item.qty) * Number(item.price),
-      0
-    ).toFixed(2)
+    const itemsPrice = cart.cartItems
+      .reduce((acc, item) => acc + Number(item.qty) * Number(item.price), 0)
+      .toFixed(2);
 
     const shippingPrice = addDecimals(itemsPrice > 2000 ? 0 : 100);
     const taxPrice = addDecimals(Number((0.15 * itemsPrice).toFixed(2)));
@@ -39,17 +42,11 @@ const PlaceOrderScreen = () => {
       taxPrice,
       totalPrice,
     });
-  }, [cart.cartItems]);
-  // cart.itemsPrice = cart.cartItems.reduce(
-  //   (acc, item) => acc + Number(item.qty) * Number(item.price),
-  //   0
-  // );
 
-  // cart.shippingPrice = addDecimals(cart.itemsPrice > 2000 ? 0 : 100);
-  // cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
-  // cart.totalPrice = addDecimals(
-  //   Number(cart.itemsPrice) + Number(cart.taxPrice) + Number(cart.shippingPrice)
-  // );
+    if (success) {
+      navigate(`/order/${order._id}`);
+    }
+  }, [cart.cartItems, navigate, order?._id, success]); 
 
   const placeOrderHandler = () => {
     dispatch(
@@ -90,7 +87,7 @@ const PlaceOrderScreen = () => {
               {cart.cartItems.length === 0 ? (
                 <Message>Your Cart is Empty</Message>
               ) : (
-                <ListGroup variant="flush"> 
+                <ListGroup variant="flush">
                   {cart.cartItems.map((item, index) => (
                     <ListGroup.Item key={index}>
                       <Row>
@@ -148,6 +145,9 @@ const PlaceOrderScreen = () => {
                   <Col>Total</Col>
                   <Col>${calculatedPrices.totalPrice}</Col>
                 </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                {error && <Message variant="danger">{error}</Message>}
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button
